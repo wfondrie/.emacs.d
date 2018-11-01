@@ -1,4 +1,4 @@
-;; init.el --- Emacs configuration
+;; init.el --- Emacs configuration                                           
 
 ;; INSTALL PACKAGES
 ;; --------------------------------------
@@ -17,7 +17,8 @@
     atom-one-dark-theme
     elpy
     flycheck
-    py-autopep8))
+    py-autopep8
+    markdown-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -27,9 +28,31 @@
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
 
-(setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'atom-one-dark t) ;; load atom-one-dark theme
-(global-linum-mode t) ;; enable line numbers globally
+;; Tabs are 4 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+
+;; Hide startup messages
+(setq inhibit-startup-message t)
+
+;; Load theme only when in GUI
+(when (display-graphic-p)
+  (load-theme 'atom-one-dark t))
+
+;; Enable line numbers globally
+(global-linum-mode t)
+(setq linum-format "%4d \u2502 ")
+
+;; Show column numbers too
+(setq column-number-mode t)
+
+;; Set font
+(set-face-attribute 'default nil :font "Ubuntu Mono-12")
+
+;; Add 72 and 79 Col indicator (PEP8 standard)
+(setq-default header-line-format
+              (list "      +"
+                    (make-string 72 ?-) "|" (make-string 5 ?-) "|"))
 
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
@@ -41,13 +64,19 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-;; enable autopep8 formatting on save
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+;; Disable tab highlighting
+(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
-;; font changes
-(set-face-attribute 'default nil :font "Ubuntu Mono-12")
+;; MARKDOWN CONFIGURATION
+;; ------------------------------------
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(autoload 'gfm-mode "markdown-mode"
+   "Major mode for editing GitHub Flavored Markdown files" t)
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
 ;; init.el ends here
 
