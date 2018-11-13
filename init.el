@@ -67,6 +67,10 @@
 ;; Disable tab highlighting
 (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
+;; Enable python interpreter
+(setq python-shell-interpreter "python"
+      python-shell-interpreter-args "-i")
+
 ;; MARKDOWN CONFIGURATION
 ;; ------------------------------------
 (autoload 'markdown-mode "markdown-mode"
