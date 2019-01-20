@@ -18,7 +18,8 @@
     elpy
     flycheck
     py-autopep8
-    markdown-mode))
+    markdown-mode
+    rainbow-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -54,6 +55,14 @@
               (list "      +"
                     (make-string 72 ?-) "|" (make-string 5 ?-) "|"))
 
+
+;; Function to figure out what face im looking at:
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property (pos) 'read-face-name)
+                  (get-char-property (pos) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
 
@@ -63,6 +72,9 @@
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; flycheck was too slow by default
+(setq flycheck-highlighting-mode 'lines)
 
 ;; Disable tab highlighting
 (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
@@ -82,6 +94,11 @@
    "Major mode for editing GitHub Flavored Markdown files" t)
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
+
+;; CSS CONFIGURATION
+;; ------------------------------------
+(add-hook 'css-mode #'rainbow-mode)
+
 ;; init.el ends here
 
 (custom-set-variables
@@ -91,10 +108,10 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (py-autopep8 flycheck elpy atom-one-dark-theme better-defaults))))
+    (rainbow-mode py-autopep8 flycheck elpy atom-one-dark-theme better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-tooltip-selection ((t nil))))
