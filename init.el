@@ -19,7 +19,8 @@
     flycheck
     py-autopep8
     markdown-mode
-    rainbow-mode))
+    rainbow-mode
+    auctex))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -55,6 +56,8 @@
               (list "      +"
                     (make-string 72 ?-) "|" (make-string 5 ?-) "|"))
 
+;; Use count-words on entire buffer when no region is highlighted
+(global-set-key (kbd "M-=") 'count-words)
 
 ;; Function to figure out what face im looking at:
 (defun what-face (pos)
@@ -98,6 +101,14 @@
 ;; CSS CONFIGURATION
 ;; ------------------------------------
 (add-hook 'css-mode #'rainbow-mode)
+
+
+;; LaTeX CONFIGURATION
+;; ------------------------------------
+(require 'tex-site)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(add-hook 'LaTeX-mode-hook #'visual-line-mode)
 
 ;; init.el ends here
 
