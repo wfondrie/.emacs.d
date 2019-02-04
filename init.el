@@ -29,6 +29,9 @@
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
 
+;; Hide the annoying warning sign...
+(setq visible-bell nil)
+
 ;; Tabs are 4 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -40,6 +43,7 @@
 (when (display-graphic-p)
   (load-theme 'atom-one-dark t))
 
+
 ;; Enable line numbers globally
 (global-linum-mode t)
 (setq linum-format "%4d \u2502 ")
@@ -48,7 +52,7 @@
 (setq column-number-mode t)
 
 ;; Set font
-(set-face-attribute 'default nil :font "Ubuntu Mono-12")
+(set-face-attribute 'default nil :font "Ubuntu Mono-14")
 
 ;; Add 72 and 79 Col indicator (PEP8 standard)
 (setq-default header-line-format
