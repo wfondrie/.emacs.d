@@ -20,7 +20,8 @@
     py-autopep8
     markdown-mode
     rainbow-mode
-    auctex))
+    auctex
+    darkroom))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -113,6 +114,13 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (add-hook 'LaTeX-mode-hook #'visual-line-mode)
+
+;; DARKROOM
+;; ------------------------------------
+(require 'darkroom)
+(setq darkroom-text-scale-increase 1.2)
+;;(setq darkroom-margins 0.33)
+
 
 ;; init.el ends here
 
